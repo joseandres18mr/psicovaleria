@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psic. Valeria Martínez | Tu Espacio Seguro</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --vino: #8B2C42;
+            --vino-oscuro: #5C1D2C;
+            --rosa-fondo: #FFF5F7;
+            --rosa-acento: #FBE6EA;
+            --texto-oscuro: #2D2426;
+            --texto-claro: #6B5E62;
+            --blanco: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--rosa-fondo);
+            color: var(--texto-oscuro); 
+            line-height: 1.7; 
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body::before {
+            content: ''; position: fixed; top: -10%; left: -10%;
+            width: 50vw; height: 50vw; border-radius: 50%;
+            background: radial-gradient(circle, rgba(251, 230, 234, 0.8) 0%, rgba(255,245,247,0) 70%);
+            z-index: -1;
+        }
+        body::after {
+            content: ''; position: fixed; bottom: -10%; right: -10%;
+            width: 50vw; height: 50vw; border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 44, 66, 0.05) 0%, rgba(255,245,247,0) 70%);
+            z-index: -1;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--vino); font-weight: 500; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .hidden-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .show-scroll { opacity: 1; transform: translateY(0); }
+
+        /* --- HERO SECTION --- */
+        .hero { display: flex; align-items: center; justify-content: space-between; min-height: 90vh; padding-top: 4rem; gap: 4rem; }
+        .hero-content { flex: 1; z-index: 2; }
+        .hero-content h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 1.5rem; color: var(--vino-oscuro); }
+        .hero-content p { font-size: 1.25rem; color: var(--texto-claro); margin-bottom: 2rem; max-width: 90%; }
+        .hero-img-container { flex: 1; display: flex; justify-content: center; position: relative; }
+        .hero-img-container::before {
+            content: ''; position: absolute; width: 100%; height: 90%;
+            background: var(--rosa-acento); border-radius: 200px 200px 0 0;
+            bottom: 0; z-index: -1; transform: translateX(20px) translateY(20px);
+        }
+        .hero-img-container img {
+            width: 90%; max-width: 450px; height: auto; object-fit: cover; 
+            border-radius: 200px 200px 20px 20px; box-shadow: 0 25px 50px rgba(139, 44, 66, 0.15);
+        }
+        .badge {
+            display: inline-block; padding: 0.5rem 1.5rem; background: var(--blanco); border-radius: 50px; 
+            color: var(--vino); font-weight: 600; font-size: 0.9rem; margin-bottom: 1.5rem; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); border: 1px solid var(--rosa-acento);
+        }
+
+        /* --- SERVICIOS --- */
+        .section-padding { padding: 6rem 0; }
+        .section-header { text-align: center; margin-bottom: 4rem; max-width: 700px; margin-inline: auto; }
+        .section-header h2 { font-size: 2.8rem; margin-bottom: 1rem; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .service-card {
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8); padding: 3rem 2.5rem; border-radius: 30px; 
+            transition: all 0.4s ease; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+        }
+        .service-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.9); box-shadow: 0 20px 40px rgba(139, 44, 66, 0.08); }
+        .service-icon { font-size: 2.5rem; color: var(--vino); margin-bottom: 1.5rem; }
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+
+        /* --- CONSEJOS --- */
+        .tips-wrapper {
+            display: flex; align-items: center; gap: 4rem; background: rgba(255, 255, 255, 0.4); 
+            border-radius: 40px; padding: 4rem; border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .tips-img-container { flex: 1; align-self: stretch; display: flex; align-items: center; justify-content: center;}
+        .tips-img-container img { width: 100%; height: 100%; object-fit: cover; border-radius: 30px; transform: rotate(-2deg); transition: 0.4s; }
+        .tips-img-container img:hover { transform: rotate(0deg); }
+        
+        .tips-content { flex: 1.5; }
+        .tips-content h2 { font-size: 2.5rem; margin-bottom: 2rem; }
+        
+        .tips-grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .tip-item { display: flex; gap: 1rem; align-items: flex-start; }
+        .tip-icon { 
+            background: var(--vino); color: var(--blanco); width: 40px; height: 40px; 
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(139, 44, 66, 0.2);
+        }
+        .tip-text p { font-size: 0.95rem; color: var(--texto-oscuro); line-height: 1.5; margin: 0; font-weight: 500;}
+
+        /* --- NOTAS DE SANACIÓN (BLOG MINIMALISTA) --- */
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; margin-top: 2rem; align-items: start; }
+        .blog-card { background: var(--blanco); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(139, 44, 66, 0.04); transition: all 0.4s ease; border: 1px solid rgba(251, 230, 234, 0.5); }
+        .blog-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(139, 44, 66, 0.08); }
+        .blog-img { width: 100%; height: auto; display: block; }
+        .blog-content { padding: 3rem 2.5rem; }
+        .blog-content h3 { font-size: 1.6rem; margin-bottom: 1.5rem; color: var(--vino); line-height: 1.3; text-align: center; }
+        .blog-content p { margin-bottom: 1.5rem; color: var(--texto-claro); font-size: 1rem; line-height: 1.8; text-align: justify; }
+        
+        .reminder-list { margin: 2rem 0; display: flex; flex-direction: column; gap: 1.5rem; }
+        .reminder-note { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--vino-oscuro); font-style: italic; text-align: center; padding: 0 1rem; position: relative; }
+        .reminder-note::after { content: ''; display: block; width: 30px; height: 1px; background-color: var(--rosa-acento); margin: 1.5rem auto 0; }
+        .reminder-note:last-child::after { display: none; }
+        .quote-minimal { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--vino-oscuro); text-align: center; font-style: italic; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--rosa-acento); }
+
+        /* --- COMUNIDAD & CTA --- */
+        .social-banner { text-align: center; background: linear-gradient(135deg, var(--vino) 0%, var(--vino-oscuro) 100%); border-radius: 40px; padding: 4rem 2rem; color: var(--blanco); margin-top: 4rem; box-shadow: 0 20px 40px rgba(139, 44, 66, 0.2); }
+        .social-banner h2 { color: var(--blanco); font-size: 2.5rem; margin-bottom: 1rem; }
+        .social-banner p { margin-bottom: 2.5rem; font-size: 1.1rem; opacity: 0.9; }
+        .social-links-grid { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+        .social-btn { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); color: var(--blanco); padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 500; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s; backdrop-filter: blur(5px); }
+        .social-btn:hover { background: var(--blanco); color: var(--vino); transform: translateY(-3px); }
+        
+        .cta-section { text-align: center; padding: 6rem 0 4rem; }
+        .btn-primary { background: var(--vino); color: var(--blanco); padding: 1.2rem 3rem; border-radius: 50px; text-decoration: none; font-weight: 500; font-size: 1.1rem; display: inline-block; transition: all 0.3s; box-shadow: 0 10px 25px rgba(139, 44, 66, 0.3); border: none; cursor: pointer; }
+        .btn-primary:hover { background: var(--vino-oscuro); transform: translateY(-3px); }
+
+        /* --- FOOTER --- */
+        footer { text-align: center; padding: 3rem 1rem; color: var(--texto-claro); font-size: 0.95rem; border-top: 1px solid var(--rosa-acento); margin-top: 2rem; }
+        .footer-socials { margin-top: 1rem; display: flex; justify-content: center; gap: 1.5rem; }
+        .footer-socials a { color: var(--vino); font-size: 1.5rem; transition: 0.3s; }
+        .footer-socials a:hover { transform: scale(1.1); color: var(--vino-oscuro); }
+
+        /* --- CHATBOT WIDGET --- */
+        .chat-widget {
+            position: fixed; bottom: 100px; right: 30px; width: 360px; height: 550px;
+            background: var(--blanco); border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            display: flex; flex-direction: column; overflow: hidden;
+            transform: scale(0); transform-origin: bottom right; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 999; border: 1px solid var(--rosa-acento);
+        }
+        .chat-widget.active { transform: scale(1); }
+        .chat-header { background: var(--vino); color: var(--blanco); padding: 1.2rem; display: flex; align-items: center; justify-content: space-between; }
+        .chat-header-info { display: flex; align-items: center; gap: 10px; }
+        .chat-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--blanco); }
+        .chat-header h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; margin: 0; }
+        .chat-header p { font-size: 0.8rem; margin: 0; opacity: 0.8; }
+        .close-chat { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
+
+        .chat-body { flex: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; background: #fafafa; }
+        .chat-msg { max-width: 85%; padding: 1rem; font-size: 0.95rem; line-height: 1.4; animation: fadeInUp 0.3s ease; word-wrap: break-word; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .msg-bot { background: var(--blanco); border-radius: 0 15px 15px 15px; border: 1px solid var(--rosa-acento); align-self: flex-start; color: var(--texto-oscuro); }
+        .msg-user { background: var(--rosa-acento); border-radius: 15px 0 15px 15px; align-self: flex-end; color: var(--vino-oscuro); }
+
+        .chat-options { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; }
+        .chat-option-btn { background: var(--blanco); border: 1px solid var(--vino); color: var(--vino); padding: 0.7rem 1rem; border-radius: 20px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; align-items: center; justify-content: space-between; }
+        .chat-option-btn:hover { background: var(--vino); color: var(--blanco); }
+        .chat-option-btn i { font-size: 1rem; }
+
+        .typing-indicator { display: flex; gap: 4px; padding: 1rem; background: var(--blanco); border-radius: 0 15px 15px 15px; align-self: flex-start; border: 1px solid var(--rosa-acento); display: none; }
+        .dot { width: 8px; height: 8px; background: var(--texto-claro); border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        .floating-chat-btn { position: fixed; bottom: 30px; right: 30px; background-color: var(--vino); color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 10px 25px rgba(139, 44, 66, 0.4); z-index: 1000; cursor: pointer; border: none; transition: 0.3s; }
+        .floating-chat-btn:hover { transform: scale(1.1); }
+
+        @media (max-width: 900px) {
+            .hero { flex-direction: column; text-align: center; padding-top: 6rem; }
+            .hero-img-container img { border-radius: 150px 150px 20px 20px; }
+            .tips-wrapper { flex-direction: column; padding: 2rem; }
+            .tips-grid-container { grid-template-columns: 1fr; }
+            .chat-widget { width: calc(100% - 40px); right: 20px; bottom: 100px; height: 80vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="hero hidden-scroll">
+            <div class="hero-content">
+                <span class="badge">Psicóloga Clínica • FPV: 19840</span>
+                <h1>Tu mente merece un lugar para sanar.</h1>
+                <p>Acompañamiento terapéutico enfocado en el cuidado de tu salud mental, el establecimiento de límites y la validación de tus emociones.</p>
+                <a href="https://wa.me/584127866856?text=Hola%20Valeria,%20vengo%20de%20tu%20página%20web%20y%20me%20gustaría%20agendar%20una%20cita." target="_blank" class="btn-primary">Agendar Sesión</a>
+            </div>
+            <div class="hero-img-container">
+                <img src="./presentacion.jpg" alt="Psicóloga Valeria Martínez">
+            </div>
+        </header>
+
+        <section class="section-padding hidden-scroll">
+            <div class="section-header">
+                <h2>Tu Proceso Terapéutico</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-globe-americas service-icon"></i>
+                    <h3>Terapia Online y Presencial</h3>
+                    <p>Consultas por videollamada a todo el mundo y atención presencial en la ciudad de Maracaibo.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-leaf service-icon"></i>
+                    <h3>Gestión de Ansiedad</h3>
+                    <p>Aprende herramientas para frenar los pensamientos intrusivos y vivir en el presente.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-shield-heart service-icon"></i>
+                    <h3>Amor Propio</h3>
+                    <p>Trabajemos en soltar lo que pesa y en elegir personas que le hagan bien a tu sistema nervioso.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding hidden-scroll">
+            <div class="tips-wrapper">
+                <div class="tips-img-container">
+                    <img src="./sorprendida.jpg" alt="Verdades que sanan">
+                </div>
+                <div class="tips-content">
+                    <h2>Verdades que sanan ✨</h2>
+                    
+                    <div class="tips-grid-container">
+                        <div class="tip-item">
+                            <div class="tip-icon"><i class="fas fa-check"></i></div>
+                            <div class="tip-text"><p>Está bien no poder con todo siempre. Valida lo que te pasa.</p></div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-icon"><i class="fas fa-heart"></i></div>
+                            <div class="tip-text"><p>Sanar es también aprender a tratarte con más amor y menos culpa.</p></div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-icon"><i class="fas fa-cloud"></i></div>
+                            <div class="tip-text"><p>Tu ansiedad no define quien eres.</p></div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-icon"><i class="fas fa-star"></i></div>
+                            <div class="tip-text"><p>A veces lo más valiente que puedes hacer es elegirte a ti.</p></div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-icon"><i class="fas fa-seedling"></i></div>
+                            <div class="tip-text"><p>Hay versiones de ti que merecen ser sanadas, no juzgadas.</p></div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-icon"><i class="fas fa-user"></i></div>
+                            <div class="tip-text"><p>Eres el proyecto más importante en el que vas a trabajar.</p></div>
+                        </div>
+                        <div class="tip-item" style="grid-column: 1 / -1;">
+                            <div class="tip-icon"><i class="fas fa-sync-alt"></i></div>
+                            <div class="tip-text"><p>Vuelve a empezar, reinicia, reenfoca. Las veces que sea necesario.</p></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding hidden-scroll">
+            <div class="section-header">
+                <h2>Reflexiones para ti</h2>
+                <p style="color: var(--texto-claro); font-size: 1.1rem;">Un espacio para pausar, respirar y recordar lo verdaderamente importante.</p>
+            </div>
+
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <img src="./consejo1.jpg" alt="Validar lo que te pasa" class="blog-img">
+                    <div class="blog-content">
+                        <h3>El poder de validar tus emociones</h3>
+                        <p>A menudo nos invalidamos por miedo, por creencias limitantes o por el simple deseo de evitar lo que sentimos. Intentamos ocultar nuestro malestar para que los demás no lo noten, quizás por el juicio o por vergüenza.</p>
+                        <p>Sin embargo, silenciar lo que nos pasa solo alimenta el estrés y la ansiedad, afectando cada área de nuestra vida.</p>
+                        <div class="quote-minimal">
+                            "Validar lo que te pasa es el primer paso para empezar a sentirte mejor. Tú importas y lo que sientes también."
+                        </div>
+                    </div>
+                </article>
+
+                <article class="blog-card" style="display: flex; flex-direction: column; justify-content: center;">
+                    <div class="blog-content">
+                        <h3>A veces necesitamos que nos lo recuerden ❤️‍🩹</h3>
+                        <p style="text-align: center;">Porque entre el ruido, la ansiedad y el sobrepensar, se nos olvida lo más importante: nosotros mismos. Este espacio es para esos días en los que dudas o te exiges de más:</p>
+                        
+                        <div class="reminder-list">
+                            <div class="reminder-note">
+                                "No olvides que está bien no poder con todo"
+                            </div>
+                            <div class="reminder-note">
+                                "No olvides que tu proceso no tiene que parecerse al de otra persona"
+                            </div>
+                            <div class="reminder-note">
+                                "No olvides que irte también es crecer"
+                            </div>
+                        </div>
+
+                        <p style="text-align: center; font-weight: 500; color: var(--texto-claro); margin-top: 2rem;">
+                            Guárdalo para volver cuando lo necesites 🤍<br>
+                            <span style="color: var(--vino); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-style: italic; display: block; margin-top: 0.5rem;">Sanar no es perfecto, pero sí es posible. ✨</span>
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="social-banner hidden-scroll">
+            <h2>Sigamos en contacto</h2>
+            <p>Únete a la comunidad y encuentra herramientas diarias para cuidar tu salud mental.</p>
+            <div class="social-links-grid">
+                <a href="https://www.instagram.com/psico.valeriamartinez/" target="_blank" class="social-btn">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://www.tiktok.com/@psico.valeriamartinez" target="_blank" class="social-btn">
+                    <i class="fab fa-tiktok"></i> TikTok
+                </a>
+                <a href="https://www.facebook.com/psico.valeriamartinez" target="_blank" class="social-btn">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+            </div>
+        </section>
+
+        <section class="cta-section hidden-scroll">
+            <h2 style="font-size: 3rem; margin-bottom: 1rem;">¿Comenzamos?</h2>
+            <p style="font-size: 1.2rem; color: var(--texto-claro); margin-bottom: 2rem;">No tienes que poder con todo tú sola.</p>
+            <a href="https://wa.me/584127866856?text=Hola%20Valeria,%20vengo%20de%20tu%20página%20web%20y%20me%20gustaría%20agendar%20una%20cita." target="_blank" class="btn-primary">Agendar mi Consulta por WhatsApp</a>
+        </section>
+    </div>
+
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <img src="./presentacion.jpg" alt="Avatar Valeria" class="chat-avatar">
+                <div>
+                    <h4>Asistente de Valeria</h4>
+                    <p>En línea 🟢</p>
+                </div>
+            </div>
+            <button class="close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="floating-chat-btn" onclick="toggleChat()">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+
+    <footer>
+        <div class="footer-socials">
+            <a href="https://www.instagram.com/psico.valeriamartinez/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@psico.valeriamartinez" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.facebook.com/psico.valeriamartinez" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p style="margin-top: 1rem;">© 2026 Valeria Martínez. Tu lugar para sanar.</p>
+    </footer>
+
+    <script>
+        // Animación al hacer scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show-scroll'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.hidden-scroll').forEach(el => observer.observe(el));
+
+        // Lógica del Chatbot
+        const chatWidget = document.getElementById('chatWidget');
+        const chatBody = document.getElementById('chatBody');
+        const typingIndicator = document.getElementById('typingIndicator');
+        let chatInitialized = false;
+
+        function toggleChat() {
+            chatWidget.classList.toggle('active');
+            if(chatWidget.classList.contains('active') && !chatInitialized) {
+                initChat();
+                chatInitialized = true;
+            }
+        }
+
+        function appendMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('chat-msg', sender === 'user' ? 'msg-user' : 'msg-bot');
+            msgDiv.innerHTML = text;
+            chatBody.insertBefore(msgDiv, typingIndicator);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function showTyping(duration, callback) {
+            typingIndicator.style.display = 'flex';
+            chatBody.scrollTop = chatBody.scrollHeight;
+            setTimeout(() => {
+                typingIndicator.style.display = 'none';
+                callback();
+            }, duration);
+        }
+
+        function renderOptions(optionsHTML) {
+            const optionsDiv = document.createElement('div');
+            optionsDiv.classList.add('chat-options');
+            optionsDiv.innerHTML = optionsHTML;
+            chatBody.insertBefore(optionsDiv, typingIndicator);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function initChat() {
+            showTyping(1000, () => {
+                appendMessage("¡Hola! 👋 Soy el asistente virtual de Valeria. ¿En qué te puedo ayudar hoy?", 'bot');
+                showMainMenu();
+            });
+        }
+
+        function handleUserChoice(userText, nextAction) {
+            const currentOptions = chatBody.querySelectorAll('.chat-options');
+            currentOptions.forEach(opt => opt.remove());
+
+            appendMessage(userText, 'user');
+            showTyping(1200, nextAction);
+        }
+
+        function showMainMenu() {
+            const menuHTML = `
+                <button class="chat-option-btn" onclick="handleUserChoice('Quiero agendar una sesión 📅', flowAgendar)">Agendar sesión <i class="fas fa-chevron-right"></i></button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Información y precios 💬', flowInfo)">Precios y modalidades <i class="fas fa-chevron-right"></i></button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Preguntas Frecuentes 💡', flowFAQMenu)">Preguntas Frecuentes <i class="fas fa-question-circle"></i></button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Ir a sus redes sociales 📱', flowRedes)">Ver redes sociales <i class="fas fa-external-link-alt"></i></button>
+            `;
+            renderOptions(menuHTML);
+        }
+
+        function flowAgendar() {
+            const response = `¡Excelente! ✨ Las sesiones se coordinan exclusivamente a través de WhatsApp. Valeria te enviará allí los horarios disponibles y los detalles de pago.<br><br>
+            <a href="https://wa.me/584127866856?text=Hola%20Valeria,%20vengo%20de%20tu%20página%20web%20y%20me%20gustaría%20agendar%20una%20sesión." target="_blank" style="display:inline-block; margin-top:10px; background:#25D366; color:white; padding:8px 15px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:0.85rem;"><i class="fab fa-whatsapp"></i> Hablar por WhatsApp</a>`;
+            appendMessage(response, 'bot');
+            renderOptions(`<button class="chat-option-btn" onclick="handleUserChoice('Volver al menú principal', showMainMenu)"><i class="fas fa-undo"></i> Volver al inicio</button>`);
+        }
+
+        // --- MENÚS DE PREGUNTAS FRECUENTES Y POLÍTICAS (MIGRADOS AL CHATBOT) ---
+        function flowFAQMenu() {
+            const response = "He agrupado las dudas más comunes para que sea más fácil ayudarte. ¿Qué tema te interesa?";
+            appendMessage(response, 'bot');
+            const menuHTML = `
+                <button class="chat-option-btn" onclick="handleUserChoice('Sobre el proceso terapéutico 🧠', flowFAQ_Terapia)">Sobre la Terapia <i class="fas fa-chevron-right"></i></button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Detalles de las sesiones ⏳', flowFAQ_Sesiones)">Modalidad y Sesiones <i class="fas fa-chevron-right"></i></button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Tarifas y cancelaciones 💳', flowFAQ_Precios)">Precios y Políticas <i class="fas fa-chevron-right"></i></button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Volver al menú principal', showMainMenu)"><i class="fas fa-undo"></i> Volver al inicio</button>
+            `;
+            renderOptions(menuHTML);
+        }
+
+        function flowFAQ_Terapia() {
+            const response = "<strong>¿Necesito estar 'muy mal' para ir a terapia?</strong><br>No, puedes buscar apoyo por estrés, relaciones difíciles o para entenderte mejor.<br><br><strong>¿Qué enfoque utilizo?</strong><br>Trabajo bajo el enfoque Cognitivo Conductual, integrando elementos de Terapia Dialéctica Conductual y de Aceptación.<br><br><strong>¿Qué temas trabajamos?</strong><br>Ansiedad, autoestima, dependencia, duelo, estrés, regulación emocional y más.";
+            appendMessage(response, 'bot');
+            const menuHTML = `
+                <button class="chat-option-btn" onclick="handleUserChoice('Ver precios y políticas', flowFAQ_Precios)">Ver precios y políticas <i class="fas fa-chevron-right"></i></button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Ver otras preguntas', flowFAQMenu)"><i class="fas fa-undo"></i> Otras preguntas</button>
+            `;
+            renderOptions(menuHTML);
+        }
+
+        function flowFAQ_Sesiones() {
+            const response = "<strong>¿Cuánto duran?</strong><br>Suelen durar entre 50 y 60 minutos. Generalmente, se recomienda 1 sesión semanal al inicio.<br><br><strong>¿Atiendes online?</strong><br>Sí, atiendo a pacientes en todo el mundo por videollamada, y también de manera presencial en Maracaibo.<br><br><strong>¿Es confidencial?</strong><br>Totalmente. Todo es 100% confidencial, ético y libre de juicios.";
+            appendMessage(response, 'bot');
+            const menuHTML = `
+                <button class="chat-option-btn" onclick="handleUserChoice('Ver precios y políticas', flowFAQ_Precios)">Ver precios y políticas <i class="fas fa-chevron-right"></i></button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Ver otras preguntas', flowFAQMenu)"><i class="fas fa-undo"></i> Otras preguntas</button>
+            `;
+            renderOptions(menuHTML);
+        }
+
+        function flowInfo() {
+            flowFAQ_Precios(); // Reutilizamos la función de precios para el botón principal
+        }
+
+        function flowFAQ_Precios() {
+            const response = "<strong>Tarifas:</strong><br>• Online Global: $25 USD.<br>• Online (USA) y Presencial (Maracaibo): $35 USD.<br><em>El pago se realiza por adelantado para confirmar el turno.</em><br><br><strong>Cancelaciones:</strong><br>Si no puedes asistir, tienes 1 mes para reprogramar sin perder tu pago (en presencial hay un recargo de $7 por el uso del consultorio). <strong>No se realizan devoluciones</strong> bajo ninguna circunstancia.";
+            appendMessage(response, 'bot');
+            const menuHTML = `
+                <button class="chat-option-btn" onclick="handleUserChoice('¡Quiero agendar en WhatsApp!', flowAgendar)">Agendar en WhatsApp <i class="fab fa-whatsapp"></i></button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Ver otras preguntas', flowFAQMenu)"><i class="fas fa-undo"></i> Otras preguntas</button>
+                <button class="chat-option-btn" onclick="handleUserChoice('Volver al inicio', showMainMenu)"><i class="fas fa-home"></i> Inicio</button>
+            `;
+            renderOptions(menuHTML);
+        }
+
+        function flowRedes() {
+            const response = "¡Claro! Valeria comparte muchísimo contenido de valor sobre salud mental todos los días. Elige la plataforma que más uses:";
+            appendMessage(response, 'bot');
+            const menuHTML = `
+                <a href="https://www.instagram.com/psico.valeriamartinez/" target="_blank" class="chat-option-btn" style="text-decoration:none;">Instagram <i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@psico.valeriamartinez" target="_blank" class="chat-option-btn" style="text-decoration:none;">TikTok <i class="fab fa-tiktok"></i></a>
+                <a href="https://www.facebook.com/psico.valeriamartinez" target="_blank" class="chat-option-btn" style="text-decoration:none;">Facebook <i class="fab fa-facebook-f"></i></a>
+                <button class="chat-option-btn" onclick="handleUserChoice('Volver al menú principal', showMainMenu)"><i class="fas fa-undo"></i> Volver al menú</button>
+            `;
+            renderOptions(menuHTML);
+        }
+    </script>
+</body>
+</html>
